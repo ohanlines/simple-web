@@ -1,0 +1,11 @@
+.DS_Store
+
+#backend
+backend/.env
+backend/node_modules
+backend/resource/certs/*
+
+#frontend
+frontend/.env
+frontend/node_modules
+frontend/.next/
