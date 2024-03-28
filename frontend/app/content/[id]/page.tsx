@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getContentDetails } from '../../api/getContentDetails'
+import { getContentDetails } from '../../../api/getContentDetails'
 
 export default function ContentDetailsPage({ params }) {
   const [content, setContent] = useState(null);

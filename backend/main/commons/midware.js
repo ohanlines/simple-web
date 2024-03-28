@@ -36,7 +36,7 @@ const auth = async function (req, res, next){
     }
   } catch (error) {
     logger.error('Error while checking auth: ' + error);
-    // throw error;
+    res.status(401).send({ status: 'Error', message: 'Unauthorized, try to login' });
   }
 }
 
