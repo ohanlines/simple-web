@@ -1,13 +1,28 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react';
 import { getAccessToken } from '../components/getAccessToken';
-import { setAccessToken } from '../components/setAccessToken';
+import { deleteAccessToken } from '../components/deleteAccessToken';
 
 export default function Page() {
   const router = useRouter();
-  // const cookies = new Cookies();
-  const accessToken = getAccessToken();
+  const [accessToken, setAccessToken] = useState('');
+
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      const token = await getAccessToken();
+      setAccessToken(token);
+    };
+
+    fetchAccessToken();
+  }, []);
+
+  console.log("ACC:", accessToken);
+  if (!accessToken) {
+    return <div>Loading ...</div>
+  }
+
 
   const handleLogin = () => {
     router.push('/login');
@@ -18,8 +33,10 @@ export default function Page() {
   };
 
   const handleLogout = () => {
-    setAccessToken();
-    router.push('/');
+    deleteAccessToken();
+    setAccessToken(' ');
+    console.log('handleLO:', accessToken);
+    router.refresh(); // Refresh the page or perform any other necessary actions
   };
   return (
   <>
@@ -28,7 +45,7 @@ export default function Page() {
         <h1 className="text-2xl font-bold">My App</h1>
       </div>
       <div>
-        {accessToken !== '' ? (
+        {accessToken.value ? (
           <button onClick={handleProfile} className="mr-4">
             Profile
           </button>
@@ -37,7 +54,7 @@ export default function Page() {
             Login
           </button>
         )}
-        {accessToken && (
+        {accessToken.value && (
           <button onClick={handleLogout}>
             Logout
           </button>

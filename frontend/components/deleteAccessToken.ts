@@ -3,7 +3,7 @@
 // import axios from 'axios';
 import { cookies } from 'next/headers'
 
-export async function setAccessToken() {
+export async function deleteAccessToken() {
 
     try {
         const token = cookies().set('accessToken', '');
