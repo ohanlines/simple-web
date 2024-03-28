@@ -7,7 +7,6 @@ export async function getAccessToken() {
 
     try {
         const token = cookies().get('accessToken');
-        console.log('ACT:', token);
         return token;
     } catch (error) {
         throw (error);

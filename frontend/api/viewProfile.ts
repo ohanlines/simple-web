@@ -6,7 +6,7 @@ import { cookies } from 'next/headers'
 export async function viewProfile() {
     const token = cookies().get('accessToken')?.value;
     try {
-        const res = await axios.get("http://localhost:8000/users/viewProfile", {
+        const res = await axios.get("http://localhost:8000/users/view-profile", {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

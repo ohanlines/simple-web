@@ -6,7 +6,7 @@ import axios from 'axios';
 export async function getContentDetails(id) {
     const token = cookies().get('accessToken')?.value;
     try {
-        const res = await axios.get(`http://localhost:8000/contents/contentDetails/${id}`, {
+        const res = await axios.get(`http://localhost:8000/contents/content-details/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }

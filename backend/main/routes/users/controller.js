@@ -38,7 +38,7 @@ router.post("/login", async (req, res) => {
   }
 })
 
-router.get("/viewProfile", async (req, res) => {
+router.get("/view-profile", async (req, res) => {
   const token = req.headers.authorization.split(' ')[1];
 
   try {
@@ -54,7 +54,7 @@ router.get("/viewProfile", async (req, res) => {
   }
 })
 
-router.post("/updateProfile", async (req, res) => {
+router.post("/update-profile", async (req, res) => {
   const { username, email, oldPass, newPass } = req.body;
 
   try {
@@ -70,7 +70,7 @@ router.post("/updateProfile", async (req, res) => {
   }
 })
 
-router.post("/deleteProfile", async (req, res) => {
+router.post("/delete-profile", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
