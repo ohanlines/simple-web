@@ -21,7 +21,8 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="container mx-auto p-4" >
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-2">Free Content</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -38,6 +39,7 @@ export default function Page() {
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 };

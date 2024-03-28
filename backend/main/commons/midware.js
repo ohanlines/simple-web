@@ -6,6 +6,8 @@ const { pool } = require('./db');
 // Must have other midware to be placed before this midware
 // Those other midware have to return isPremiumContent status inside req
 const auth = async function (req, res, next){
+  logger.info('Getting into auth');
+
   try {
     if (req.isPremiumContent) {
       const token = req.headers.authorization.split(' ')[1];

@@ -18,11 +18,9 @@ export default function Page() {
     fetchAccessToken();
   }, []);
 
-  console.log("ACC:", accessToken);
   if (!accessToken) {
     return <div>Loading ...</div>
   }
-
 
   const handleLogin = () => {
     router.push('/login');
@@ -35,33 +33,43 @@ export default function Page() {
   const handleLogout = () => {
     deleteAccessToken();
     setAccessToken(' ');
-    console.log('handleLO:', accessToken);
-    router.refresh(); // Refresh the page or perform any other necessary actions
+    router.refresh();
   };
   return (
   <>
     <header className="bg-gray-800 text-white py-4 px-8 flex justify-between items-center">
-      <div>
-        <h1 className="text-2xl font-bold">My App</h1>
+      <div className="flex items-center">
+      <h1 className="text-2xl mr-4 font-bold overline">Ohanlines.</h1>
+      <button onClick={() => {router.push('/')}} className="mr-4">
+        Home
+      </button>
+      <button onClick={() => {router.push('/content')}} className="mr-4">
+        Content
+      </button>
       </div>
       <div>
         {accessToken.value ? (
-          <button onClick={handleProfile} className="mr-4">
-            Profile
-          </button>
-        ) : (
-          <button onClick={handleLogin} className="mr-4">
-            Login
-          </button>
-        )}
-        {accessToken.value && (
-          <button onClick={handleLogout}>
-            Logout
-          </button>
-        )}
+            <>
+              <button onClick={handleProfile} className="mr-4">
+                Profile
+              </button>
+              <button onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={handleLogin} className="mr-4">
+                Login
+              </button>
+              <button onClick={() => { router.push('/signup') }}>
+                Signup
+              </button>
+            </>
+          )}
       </div>
     </header>
-    <h1 className="text-3xl font-bold underline">Hello ohan, Next.js!</h1>
+    <h1 className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 text-4xl text-slate-300">Empowering minds for tomorrow</h1>
   </>
 );
 

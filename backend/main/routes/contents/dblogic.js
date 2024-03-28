@@ -2,6 +2,8 @@ const { logger } = require('../../commons/utils')
 const { pool } = require('../../commons/db')
 
 const contentList = async function(){
+  logger.info('Getting into contentList');
+
   try {
     const selectSql = 'SELECT `id`, `Title`, `Premium_Content` FROM `Content`';
     const [rows, fields] = await pool.execute(selectSql);
@@ -27,6 +29,8 @@ const contentList = async function(){
 }
 
 const contentDetails = async function(id) {
+  logger.info('Getting into contentDetails');
+
   try {
     const selectSql = 'SELECT `Title`, `Description`, `Youtube_Code` FROM `Content` WHERE `id` = ?';
     const selectValue = [id];

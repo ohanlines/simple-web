@@ -13,9 +13,7 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Call signIn function passing email and password
       const data = await signUp(email, username, password);
-      // If successful, you can redirect the user to another page
       router.push('/login');
     } catch (error) {
       // Handle errors, such as displaying error messages to the user

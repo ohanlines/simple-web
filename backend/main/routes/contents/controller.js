@@ -5,8 +5,6 @@ const { contentList, contentDetails } = require('./dblogic')
 const { checkPremiumContent, auth } = require('../../commons/midware')
 
 router.get('/contentList', async (req, res) => {
-  logger.info('Getting into contentList ctrl');
-
   try {
     const result = await contentList();
 
@@ -23,7 +21,6 @@ router.get('/contentList', async (req, res) => {
 
 // Must send auth headers to use securely use this API
 router.get('/contentDetails/:id', checkPremiumContent, auth, async (req, res) => {
-  logger.info('Getting into contentDetails ctrl');
   const id = req.params.id;
 
   try {

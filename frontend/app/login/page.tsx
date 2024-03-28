@@ -12,18 +12,15 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Call signIn function passing email and password
       const data = await signIn(email, password);
-      // If successful, you can redirect the user to another page
       router.push('/');
     } catch (error) {
-      // Handle errors, such as displaying error messages to the user
       setError('Invalid email or password. Please try again.');
     }
   };
 
     return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>

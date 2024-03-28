@@ -10,8 +10,8 @@ export default function ViewProfile() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
-  const [isFormValid, setIsFormValid] = useState(false); // State to track form validity
-  const [updateStatus, setUpdateStatus] = useState(false); // State to track form validity
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -33,20 +33,14 @@ export default function ViewProfile() {
     e.preventDefault();
     try {
       // Call signIn function passing email and password
-      // const data = await signIn(email, oldPassword); // Assuming signIn function takes email and old password
       const data = {
-          email: email,
-          username: username,
-          oldPassword: oldPassword,
-          newPassword: newPassword
+        email: email,
+        username: username,
+        oldPassword: oldPassword,
+        newPassword: newPassword
       };
-        const dataUpdate = await updateProfile(data);
-        // console.log("UPDAE: " + dataUpdate.status)
-        setUpdateStatus(true);
-      // console.log("DATA: " + await data)
-      // If successful, you can redirect the user to another page
-      // router.push('/');
-      router.refresh();
+      const dataUpdate = await updateProfile(data);
+      setUpdateStatus(true);
     } catch (error) {
       // Handle errors, such as displaying error messages to the user
       setError('Invalid email or password. Please try again.');
@@ -63,7 +57,8 @@ export default function ViewProfile() {
     if(updateStatus){
         return(
             <>
-                <div>Update Berhasil</div>
+                <div className="flex flex-col items-center justify-center h-screen">
+                <p className="text-lg mb-4">Update Berhasil </p>
                 <button onClick={() => {
                     router.push('/');
                     setUpdateStatus(false);
@@ -71,6 +66,7 @@ export default function ViewProfile() {
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 Back to Home
             </button>
+            </div>
             </>
         )
     }

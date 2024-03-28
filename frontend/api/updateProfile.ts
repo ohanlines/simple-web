@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import { cookies } from 'next/headers'
 
 export async function updateProfile(data) {
     const { email, username, oldPassword, newPassword } = data;

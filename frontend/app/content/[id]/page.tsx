@@ -29,9 +29,9 @@ export default function ContentDetailsPage({ params }) {
 
   if (error) {
     return (
-      <div className="error-message">
-        <p>Unauthorized</p>
-        <button onClick={handleBack}>Go Back</button>
+      <div className="flex flex-col items-center justify-center h-screen">
+        <p className="text-red-500 text-lg mb-4">Unauthorized</p>
+        <button onClick={handleBack} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Go Back</button>
       </div>
     );
   }
@@ -40,8 +40,8 @@ export default function ContentDetailsPage({ params }) {
     return <div>Loading...</div>;
   }
   return (
-    <div>
-      <h1>{content[0].Title}</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 text-xl">
+      <h1 className="mb-4">{content[0].Title}</h1>
       <p>{content[0].Description}</p>
       <iframe
         width="560"
@@ -49,6 +49,7 @@ export default function ContentDetailsPage({ params }) {
         src={`https://www.youtube.com/embed/${content[0].Youtube_Code}`}
         frameBorder="0"
         allowFullScreen
+        className="mt-4"
       ></iframe>
     </div>
   );
