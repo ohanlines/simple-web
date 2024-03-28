@@ -4,6 +4,8 @@ const { logger } = require('../../commons/utils')
 const { pool } = require('../../commons/db')
 
 const signup = async function(email, username, password){
+  logger.info('Getting into signup');
+
   try {
     // Check if the user exists in the database
     const selectSql = 'SELECT * FROM `Users` WHERE `email` = ?';
@@ -33,6 +35,8 @@ const signup = async function(email, username, password){
 }
 
 const login = async function(email, password){
+  logger.info('Getting into login');
+
   try {
     // Check if the user exists in the database
     const selectSql = 'SELECT * FROM `Users` WHERE `email` = ?';
@@ -74,7 +78,9 @@ const login = async function(email, password){
   }
 }
 
-const profile = async function(token){
+const viewProfile = async function(token){
+  logger.info('Getting into viewProfile');
+
   try {
     const email = jwt.decode(token, process.env.JWT_SECRET_KEY).email;
     logger.info('Seeing profile for email: ' + email);
@@ -94,6 +100,8 @@ const profile = async function(token){
 }
 
 const updateProfile = async function(username, email, oldPass, newPass){
+  logger.info('Getting into updateProfile');
+
   try {
     const selectSql = 'SELECT * FROM `Users` WHERE `email` = ?';
     const selectValues = [email];
@@ -143,4 +151,39 @@ const updateProfile = async function(username, email, oldPass, newPass){
   }
 }
 
-module.exports = { login, signup, profile, updateProfile };
+const deleteProfile = async function(email, password){
+  logger.info('Getting into deleteProfile');
+
+  try {
+    // Check if the user exists in the database
+    const selectSql = 'SELECT * FROM `Users` WHERE `email` = ?';
+    const selectValues = [email];
+    const [rows, fields] = await pool.execute(selectSql, selectValues);
+    const passwordHashed = rows[0].password;
+
+    // If user exists, continue to proccess JWT
+    if (rows.length > 0) {
+      const passMatched = await bcrypt.compare(password, passwordHashed);
+
+      if (passMatched) {
+        const deleteSql = 'DELETE FROM `Users` WHERE `email` = ?';
+        const deleteVal = [email];
+        await pool.execute(deleteSql, deleteVal);
+
+        logger.info('Account deleted, email: ' + email)
+        return { email: email };
+      } else {
+        // Wrong password error
+        logger.warn('Password is not match, email: ' + email);
+      }
+      // User not found error
+    } else {
+      logger.warn('Email not found in database, email: ' + email);
+    }
+  } catch (error) {
+    logger.error('Error during delete account: ' + error);
+    throw error;
+  }
+}
+
+module.exports = { login, signup, viewProfile, updateProfile, deleteProfile };
