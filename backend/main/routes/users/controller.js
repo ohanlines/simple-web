@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { logger } = require('../../commons/utils')
-const { login, signup } = require('./dblogic')
+const { login, signup, profile, updateProfile } = require('./dblogic')
 
 router.post("/signup", async (req, res) => {
   const email = req.body.email;
@@ -36,6 +36,39 @@ router.post("/login", async (req, res) => {
     }
   } catch (error) {
     logger.error('Error during login: ' + error);
+    res.status(500).send({ status: 'Error', message: 'Internal server error' });
+  }
+})
+
+router.get("/viewProfile", async (req, res) => {
+  const token = req.headers.authorization.split(' ')[1];
+
+  try {
+    const result = await profile(token);
+
+    if (result) {
+      res.send({ status: 'OK', message: "Done getting profile data", data: result })
+    } else {
+      res.status(401).send({ status: 'Error', message: 'Invalid email or password' })
+    }
+  } catch (error) {
+    res.status(500).send({ status: 'Error', message: 'Internal server error' });
+  }
+})
+
+router.post("/updateProfile", async (req, res) => {
+  logger.info('Getting into update-profile API')
+  const { username, email, oldPass, newPass } = req.body;
+
+  try {
+    const result = await updateProfile(username, email, oldPass, newPass);
+
+    if (result) {
+      res.send({ status: 'OK', message: "Done updating profile data", data: result })
+    } else {
+      res.status(401).send({ status: 'Error', message: 'Something error' })
+    }
+  } catch (error) {
     res.status(500).send({ status: 'Error', message: 'Internal server error' });
   }
 })

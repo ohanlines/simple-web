@@ -4,8 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "node main/app.js",
-    "watch": "nodemon main/app.js"
+    "dev": "nodemon main/app.js"
   },
   "author": "Ahmad Rauhan",
   "license": "ISC",

@@ -74,5 +74,73 @@ const login = async function(email, password){
   }
 }
 
+const profile = async function(token){
+  try {
+    const email = jwt.decode(token, process.env.JWT_SECRET_KEY).email;
+    logger.info('Seeing profile for email: ' + email);
 
-module.exports = { login, signup };
+    const selectSql = 'SELECT * FROM `Users` WHERE `email` = ?';
+    const selectValues = [email];
+    const [rows, fields] = await pool.execute(selectSql, selectValues);
+    const res = {
+      username: rows[0].username,
+      email: rows[0].email
+    }
+    return res;
+
+  } catch (error){
+    logger.error('Error during getting profile: ' + error)
+  }
+}
+
+const updateProfile = async function(username, email, oldPass, newPass){
+  try {
+    const selectSql = 'SELECT * FROM `Users` WHERE `email` = ?';
+    const selectValues = [email];
+    const [rows, fields] = await pool.execute(selectSql, selectValues);
+    const passwordHashed = rows[0].password;
+    const oldPassMatched = await bcrypt.compare(oldPass, passwordHashed);
+    const newPassMatched = await bcrypt.compare(newPass, passwordHashed);
+
+    if (oldPassMatched){
+      if (newPassMatched){
+        logger.warn('Cannot use the same password, email: ' + email);
+        return;
+      } else {
+        const newPassHashed = await bcrypt.hash(newPass, 10);
+        const changedData = {
+          email: email,
+          username: username,
+          password: newPassHashed
+        }
+
+        const oldData = {
+          email: rows[0].email,
+          username: rows[0].username,
+          password: rows[0].password
+        }
+        console.log('changedData:', changedData);
+        console.log('oldData:', oldData);
+
+        const newData = {
+          ...oldData,
+          ...changedData
+        }
+
+        const updateSql = 'UPDATE `Users` SET `email` = ?, `username` = ?, `password` = ? WHERE `email` = ?';
+        const updateVal = [newData.email, newData.username, newData.password, newData.email];
+        await pool.execute(updateSql, updateVal);
+
+        delete newData.password;
+        return newData;
+      }
+    } else {
+      logger.warn('Password did not match, email: ' + email);
+      return;
+    }
+  } catch (error) {
+    logger.error['Error during updating profile: ' + error]
+  }
+}
+
+module.exports = { login, signup, profile, updateProfile };
