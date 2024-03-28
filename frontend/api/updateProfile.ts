@@ -1,9 +1,10 @@
+'use server'
 import axios from 'axios';
 
 export async function updateProfile(data) {
     const { email, username, oldPassword, newPassword } = data;
     try {
-        const res = await axios.post("http://localhost:8000/users/update-profile", {
+        const res = await axios.post(`${process.env.BE_HOST}/users/update-profile`, {
             email: email,
             username: username,
             oldPass: oldPassword,

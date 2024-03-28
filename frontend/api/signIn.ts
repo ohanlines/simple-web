@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
 
 export async function signIn(email, password) {
     try {
-        const res = await axios.post("http://localhost:8000/users/login", {
+        const res = await axios.post(`${process.env.BE_HOST}/users/login`, {
             email: email,
             password: password
         });
