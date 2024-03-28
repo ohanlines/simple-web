@@ -101,6 +101,7 @@ const viewProfile = async function(token){
 
 const updateProfile = async function(username, email, oldPass, newPass){
   logger.info('Getting into updateProfile');
+  console.log('sending: ', username, email, oldPass, newPass)
 
   try {
     const selectSql = 'SELECT * FROM `Users` WHERE `email` = ?';
